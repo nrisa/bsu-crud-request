@@ -1,4 +1,4 @@
-@extends('components.nasabah.layout-nasabah')
+@extends('components.admin.layout-admin')
 
 @section('content')
     <div class="mb-6">
@@ -53,7 +53,7 @@
                                 <button class="text-yellow-500 hover:text-yellow-900 mr-2" onclick="openModal('editModal', '{{ $setoran->id }}')">
                                     <i class="fas fa-edit bg-yellow-500 p-2 text-white rounded-md"></i>
                                 </button>
-                                <button class="text-red-500 hover:text-red-900" onclick="openHapusModal('{{ $setoran->id }}')">
+                                <button class="text-red-500 hover:text-red-900" onclick="openModal('hapusModal', '{{ $setoran->id }}')">
                                     <i class="fas fa-trash bg-red-500 p-2 text-white rounded-md"></i>
                                 </button>
 
@@ -142,8 +142,8 @@
                         <input type="text" id="total_setoran" name="total_setoran" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                     </div>
                     <div class="flex justify-end">
-                        <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400" onclick="closeModal('tambahModal')">Batal</button>
-                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg ml-2 hover:bg-green-700">Tambah</button>
+                        <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 mr-2" onclick="closeModal('tambahModal')">Batal</button>
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -163,45 +163,44 @@
                         <span class="material-icons">close</span>
                     </button>
                 </div>
-                <form id="editForm" action="" method="POST">
+                <form id="editForm" method="POST">
                     @csrf
                     @method('PUT')
-                    <!-- Form inputs should be same as the add form, just prefilled with current data -->
                     <div class="mb-4">
-                        <label for="nasabah" class="block text-sm font-medium text-gray-700">Nasabah</label>
-                        <input type="text" id="nasabah" name="nasabah" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                        <label for="editNasabah" class="block text-sm font-medium text-gray-700">Nasabah</label>
+                        <input type="text" id="editNasabah" name="nasabah" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                     </div>
                     <div class="mb-4">
-                        <label for="jenis" class="block text-sm font-medium text-gray-700">Jenis sampah</label>
-                        <input type="text" id="jenis" name="jenis" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                        <label for="editJenis" class="block text-sm font-medium text-gray-700">Jenis sampah</label>
+                        <input type="text" id="editJenis" name="jenis" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                     </div>
                     <div class="mb-4">
-                        <label for="berat" class="block text-sm font-medium text-gray-700">Berat (Kg)</label>
-                        <input type="text" id="berat" name="berat" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                        <label for="editBerat" class="block text-sm font-medium text-gray-700">Berat (Kg)</label>
+                        <input type="text" id="editBerat" name="berat" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                     </div>
                     <div class="mb-4">
-                        <label for="tanggal" class="block text-sm font-medium text-gray-700">Tanggal</label>
-                        <input type="date" id="tanggal" name="tanggal" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                        <label for="editTanggal" class="block text-sm font-medium text-gray-700">Tanggal</label>
+                        <input type="date" id="editTanggal" name="tanggal" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                     </div>
                     <div class="mb-4">
-                        <label for="setor" class="block text-sm font-medium text-gray-700">Setor</label>
-                        <input type="text" id="setor" name="setor" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                        <label for="editSetor" class="block text-sm font-medium text-gray-700">Setor</label>
+                        <input type="text" id="editSetor" name="setor" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                     </div>
                     <div class="mb-4">
-                        <label for="jumlah_setoran" class="block text-sm font-medium text-gray-700">Jumlah Setoran</label>
-                        <input type="text" id="jumlah_setoran" name="jumlah_setoran" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                        <label for="editJumlahSetoran" class="block text-sm font-medium text-gray-700">Jumlah Setoran</label>
+                        <input type="text" id="editJumlahSetoran" name="jumlah_setoran" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                     </div>
                     <div class="mb-4">
-                        <label for="total_poin" class="block text-sm font-medium text-gray-700">Total Poin</label>
-                        <input type="text" id="total_poin" name="total_poin" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                        <label for="editTotalPoin" class="block text-sm font-medium text-gray-700">Total Poin</label>
+                        <input type="text" id="editTotalPoin" name="total_poin" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                     </div>
                     <div class="mb-4">
-                        <label for="total_setoran" class="block text-sm font-medium text-gray-700">Total Setoran</label>
-                        <input type="text" id="total_setoran" name="total_setoran" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
+                        <label for="editTotalSetoran" class="block text-sm font-medium text-gray-700">Total Setoran</label>
+                        <input type="text" id="editTotalSetoran" name="total_setoran" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                     </div>
                     <div class="flex justify-end">
-                        <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400" onclick="closeModal('editModal')">Batal</button>
-                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg ml-2 hover:bg-green-700">Update</button>
+                        <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 mr-2" onclick="closeModal('editModal')">Batal</button>
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -221,50 +220,47 @@
                         <span class="material-icons">close</span>
                     </button>
                 </div>
-                <form id="hapusForm" action="" method="POST">
+                <form id="hapusForm" method="POST">
                     @csrf
                     @method('DELETE')
                     <p>Apakah Anda yakin ingin menghapus setoran ini?</p>
-                    <div class="flex justify-end">
-                        <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400" onclick="closeModal('hapusModal')">Batal</button>
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg ml-2 hover:bg-red-700">Hapus</button>
+                    <div class="flex justify-end mt-4">
+                        <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 mr-2" onclick="closeModal('hapusModal')">Batal</button>
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700">Hapus</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('scripts')
     <script>
-        function openModal(modalId, setoranId = null) {
-            const modal = document.getElementById(modalId);
-            modal.classList.remove('hidden');
-
-            if (setoranId) {
-                const form = modal.querySelector('form');
-                form.action = `/setoran/${setoranId}`;
-
-                if (modalId === 'editModal') {
-                    fetch(`/setoran/${setoranId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            document.getElementById('nasabah').value = data.nasabah;
-                            document.getElementById('jenis').value = data.jenis;
-                            document.getElementById('berat').value = data.berat;
-                            document.getElementById('tanggal').value = data.tanggal;
-                            document.getElementById('setor').value = data.setor;
-                            document.getElementById('jumlah_setoran').value = data.jumlah_setoran;
-                            document.getElementById('total_poin').value = data.total_poin;
-                            document.getElementById('total_setoran').value = data.total_setoran;
-                        });
-                }
+               function openModal(modalId, setoranId = null) {
+            // Set up the modal for editing or deleting
+            if (modalId === 'editModal' && setoranId) {
+                // Fetch the setoran data via AJAX (you need to implement the route and controller method)
+                fetch(`/setoran/${setoranId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('editNasabah').value = data.nasabah;
+                        document.getElementById('editJenis').value = data.jenis;
+                        document.getElementById('editBerat').value = data.berat;
+                        document.getElementById('editTanggal').value = data.tanggal;
+                        document.getElementById('editSetor').value = data.setor;
+                        document.getElementById('editJumlahSetoran').value = data.jumlah_setoran;
+                        document.getElementById('editTotalPoin').value = data.total_poin;
+                        document.getElementById('editTotalSetoran').value = data.total_setoran;
+                        document.getElementById('editForm').action = `/setoran/${setoranId}`;
+                    });
             }
+
+            document.getElementById(modalId).classList.remove('hidden');
         }
 
         function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.add('hidden');
+            document.getElementById(modalId).classList.add('hidden');
         }
     </script>
 @endsection

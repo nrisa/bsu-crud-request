@@ -11,6 +11,19 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\PenarikanController;
+use App\Http\Controllers\NasabahController;
+use App\Http\Controllers\WasteController;
+
+// Route for listing and storing waste data
+Route::get('/admin/data-sampah', [WasteController::class, 'index'])->name('admin.data-sampah');
+Route::post('/waste', [WasteController::class, 'store'])->name('waste.store');
+// Add routes for editing and deleting as needed
+
+// Route for listing nasabah
+Route::get('/admin/nasabah', [NasabahController::class, 'index'])->name('admin.nasabah');
+
+// Route for creating nasabah
+Route::post('/nasabah', [NasabahController::class, 'store'])->name('nasabah.store');
 
 Route::get('/nasabah/permintaan-penarikan', [PenarikanController::class, 'index'])->name('nasabah.permintaan-penarikan');
 Route::post('penarikan', [PenarikanController::class, 'store'])->name('penarikan.store');
@@ -97,9 +110,9 @@ Route::post('/reset-password', function (Request $request) {
 Route::get('/admin/dashboard', function () {
     return view('admin-page.dashboard');
 })->name('admin.dashboard');
-Route::get('/admin/data-sampah', function () {
-    return view('admin-page.data-sampah');
-})->name('admin.data-sampah');
+// Route::get('/admin/data-sampah', function () {
+//     return view('admin-page.data-sampah');
+// })->name('admin.data-sampah');
 
 // Route::get('/admin', function () {
 //     return view('admin-page.index');
@@ -108,19 +121,19 @@ Route::get('/admin/data-sampah', function () {
 Route::get('/admin/profile', function () {
     return view('admin-page.profile');
 })->name('admin.profile');
-Route::get('/admin/riwayat-setoran', function () {
-    return view('admin-page.riwayat-setoran');
-})->name('admin.riwayat-setoran');
+// Route::get('/admin/riwayat-setoran', function () {
+//     return view('admin-page.riwayat-setoran');
+// })->name('admin.riwayat-setoran');
 // Route::get('/admin/setoran-sampah', function () {
 //     return view('admin-page.setoran-sampah');
 // })->name('admin.setoran-sampah');
-Route::get('/admin/data-sampah', function () {
-    return view('admin-page.data-sampah');
-})->name('admin.data-sampah');
+// Route::get('/admin/data-sampah', function () {
+//     return view('admin-page.data-sampah');
+// })->name('admin.data-sampah');
 
-Route::get('/admin/nasabah', function () {
-    return view('admin-page.nasabah');
-})->name('admin.nasabah');
+// Route::get('/admin/nasabah', function () {
+//     return view('admin-page.nasabah');
+// })->name('admin.nasabah');
 
 // ! Halaman nasabah
 Route::get('/nasabah/dashboard', function () {

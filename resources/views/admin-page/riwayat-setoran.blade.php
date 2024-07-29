@@ -38,19 +38,22 @@
                         </th>
                     </tr>
                 </thead>
+                
                 <tbody class="bg-white text-center">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">1</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">Ali Ahmad</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">2024-07-01</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">100 kg</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">10.000</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">50</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">$100</td>
-                    </tr>
-                    <!-- Tambahkan lebih banyak baris sesuai kebutuhan -->
+                    @foreach($setorans as $index => $setoran)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $index + 1 }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $setoran->nasabah }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $setoran->tanggal }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $setoran->setor }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $setoran->jumlah_setoran }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $setoran->total_poin }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $setoran->total_setoran}}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 @endsection
+

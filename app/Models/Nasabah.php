@@ -7,7 +7,7 @@
     class Nasabah extends Authenticatable
     {
         protected $fillable = [
-            'name', 'email', 'password',
+            'name', 'email', 'password', 'jumlah', 'alamat', 'no_induk'
         ];
     }
     
