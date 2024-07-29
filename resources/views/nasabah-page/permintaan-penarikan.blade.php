@@ -38,19 +38,20 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white text-center">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">1</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">2024-07-01</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">$500</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">Pending</td>
-                        <td class="px-6 py-4 whitespace-nowrap border border-gray-300">
-                            <button class="text-pribg-primary hover:text-pribg-primary mr-2"
-                                onclick="openModal('lihatPenarikanModal')">
-                                <i class="fas fa-eye bg-primary p-2 text-white rounded-md"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Tambahkan lebih banyak baris sesuai kebutuhan -->
+                    @foreach ($penarikans as $penarikan)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $loop->iteration }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $penarikan->tanggal }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">${{ $penarikan->jumlah }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">{{ $penarikan->status }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap border border-gray-300">
+                                <button class="text-pribg-primary hover:text-pribg-primary mr-2"
+                                    onclick="openModal('lihatPenarikanModal', '{{ $penarikan->id }}')">
+                                    <i class="fas fa-eye bg-primary p-2 text-white rounded-md"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -69,23 +70,24 @@
                         <span class="material-icons">close</span>
                     </button>
                 </div>
-                <form>
+                <form action="{{ route('penarikan.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="status" value="pending" />
                     <div class="mb-4">
                         <label for="tanggalPenarikan" class="block text-sm font-medium text-gray-700">Tanggal</label>
-                        <input type="date" id="tanggalPenarikan"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pribg-primary focus:border-pribg-primary sm:text-sm" />
+                        <input type="date" id="tanggalPenarikan" name="tanggal"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
                     </div>
                     <div class="mb-4">
-                        <label for="jumlahPenarikan" class="block text-sm font-medium text-gray-700">Jumlah
-                            Penarikan</label>
-                        <input type="text" id="jumlahPenarikan"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pribg-primary focus:border-pribg-primary sm:text-sm" />
+                        <label for="jumlahPenarikan" class="block text-sm font-medium text-gray-700">Jumlah Penarikan</label>
+                        <input type="text" id="jumlahPenarikan" name="jumlah"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
                     </div>
                     <div class="flex justify-end">
                         <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg mr-2 hover:bg-gray-400"
-                            onclick="closeModal('tambahPenarikanModal')">Cancel</button>
+                            onclick="closeModal('tambahPenarikanModal')">Batal</button>
                         <button type="submit"
-                            class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary">Submit</button>
+                            class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary">Kirim</button>
                     </div>
                 </form>
             </div>
@@ -105,29 +107,42 @@
                         <span class="material-icons">close</span>
                     </button>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Tanggal</label>
-                    <p class="mt-1 text-gray-900">2024-07-01</p>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Jumlah Penarikan</label>
-                    <p class="mt-1 text-gray-900">$500</p>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Status</label>
-                    <p class="mt-1 text-gray-900">Pending</p>
+                <div id="penarikanDetails">
+                    <!-- Detail penarikan akan dimuat di sini menggunakan JavaScript -->
                 </div>
                 <div class="flex justify-end">
                     <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg mr-2 hover:bg-gray-400"
-                        onclick="closeModal('lihatPenarikanModal')">Close</button>
+                        onclick="closeModal('lihatPenarikanModal')">Tutup</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function openModal(modalId) {
+        function openModal(modalId, penarikanId = null) {
             document.getElementById(modalId).classList.remove('hidden');
+
+            if (modalId === 'lihatPenarikanModal' && penarikanId) {
+                fetch(`/penarikan/${penarikanId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('penarikanDetails').innerHTML = `
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700">Tanggal</label>
+                                <p class="mt-1 text-gray-900">${data.tanggal}</p>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700">Jumlah Penarikan</label>
+                                <p class="mt-1 text-gray-900">$${data.jumlah}</p>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700">Status</label>
+                                <p class="mt-1 text-gray-900">${data.status}</p>
+                            </div>
+                        `;
+                    })
+                    .catch(error => console.error('Error fetching penarikan details:', error));
+            }
         }
 
         function closeModal(modalId) {

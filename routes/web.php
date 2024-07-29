@@ -2,12 +2,37 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SetoranController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
+use App\Http\Controllers\PenarikanController;
+
+Route::get('/nasabah/permintaan-penarikan', [PenarikanController::class, 'index'])->name('nasabah.permintaan-penarikan');
+Route::post('penarikan', [PenarikanController::class, 'store'])->name('penarikan.store');
+
+
+// Route untuk AdminController
+Route::get('/nasabah/setoran-sampah', [SetoranController::class, 'index'])->name('nasabah.setoran-sampah');
+Route::get('/nasabah/riwayat-setoran', [SetoranController::class, 'riwayat'])->name('nasabah.riwayat-setoran');
+Route::post('setoran', [SetoranController::class, 'store'])->name('setoran.store');
+Route::put('/setoran/{id}', [SetoranController::class, 'update'])->name('setoran.update');
+Route::delete('/nasabah/setoran-sampah/{id}', [SetoranController::class, 'destroy'])->name('setoran.destroy');
+
+Route::get('/admin/setoran-sampah', [SetoranController::class, 'admin'])->name('admin.setoran-sampah');
+Route::post('/admin/setoran', [SetoranController::class, 'storeAdmin'])->name('adminSetor.store');
+Route::get('/admin/riwayat-setoran', [SetoranController::class, 'riwayatAdmin'])->name('admin.riwayat-setoran');
+Route::delete('/admin/setoran-sampah/{id}', [SetoranController::class, 'destroyAdmin'])->name('adminSetor.destroy');
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.admin');
+Route::post('admin', [AdminController::class, 'store'])->name('admin.store');
+Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+
 
 // Halaman utama
 Route::get('/', function () {
@@ -75,18 +100,20 @@ Route::get('/admin/dashboard', function () {
 Route::get('/admin/data-sampah', function () {
     return view('admin-page.data-sampah');
 })->name('admin.data-sampah');
-Route::get('/admin/admin', function () {
-    return view('admin-page.admin');
-})->name('admin.admin');
+
+// Route::get('/admin', function () {
+//     return view('admin-page.index');
+// })->name('admin.index');
+
 Route::get('/admin/profile', function () {
     return view('admin-page.profile');
 })->name('admin.profile');
 Route::get('/admin/riwayat-setoran', function () {
     return view('admin-page.riwayat-setoran');
 })->name('admin.riwayat-setoran');
-Route::get('/admin/setoran-sampah', function () {
-    return view('admin-page.setoran-sampah');
-})->name('admin.setoran-sampah');
+// Route::get('/admin/setoran-sampah', function () {
+//     return view('admin-page.setoran-sampah');
+// })->name('admin.setoran-sampah');
 Route::get('/admin/data-sampah', function () {
     return view('admin-page.data-sampah');
 })->name('admin.data-sampah');
@@ -99,15 +126,15 @@ Route::get('/admin/nasabah', function () {
 Route::get('/nasabah/dashboard', function () {
     return view('nasabah-page.dashboard');
 })->name('nasabah.dashboard');
-Route::get('/nasabah/permintaan-penarikan', function () {
-    return view('nasabah-page.permintaan-penarikan');
-})->name('nasabah.permintaan-penarikan');
+// Route::get('/nasabah/permintaan-penarikan', function () {
+//     return view('nasabah-page.permintaan-penarikan');
+// })->name('nasabah.permintaan-penarikan');
 Route::get('/nasabah/profile', function () {
     return view('nasabah-page.profile');
 })->name('nasabah.profile');
-Route::get('/nasabah/riwayat-setoran', function () {
-    return view('nasabah-page.riwayat-setoran');
-})->name('nasabah.riwayat-setoran');
-Route::get('/nasabah/setoran-sampah', function () {
-    return view('nasabah-page.setoran-sampah');
-})->name('nasabah.setoran-sampah');
+// Route::get('/nasabah/riwayat-setoran', function () {
+//     return view('nasabah-page.riwayat-setoran');
+// })->name('nasabah.riwayat-setoran');
+// Route::get('/nasabah/setoran-sampah', function () {
+//     return view('nasabah-page.setoran-sampah');
+// })->name('nasabah.setoran-sampah');
